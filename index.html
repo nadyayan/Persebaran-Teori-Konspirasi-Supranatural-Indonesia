@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Persebaran Teori Konspirasi Supranatural DI Indonesia</title>
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.129/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.129/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <style>
+    html, body, #cesiumContainer {
+      width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+<div id="cesiumContainer"></div>
+<script type="module">
+  Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzYzJmZDFiZi0wN2FlLTQ4NTYtYmIyNC01NmYzOTllYmI1ZjciLCJpZCI6MzA0OTczLCJpYXQiOjE3NDc4NTYxNDR9.wk-2jiFoQbkgVn1vusQzIhhepEW4ApkmL2fi8-zX9kg';
+
+  const viewer = new Cesium.Viewer('cesiumContainer', {
+    terrain: Cesium.Terrain.fromWorldTerrain(),
+    baseLayerPicker: false,
+    timeline: false,
+    animation: false,
+    geocoder: false
+  });
+
+  viewer.scene.globe.enableLighting = true;
+
+  // Fungsi untuk load GeoJSON dan tambahkan ke viewer
+  async function loadGeoJson(url, color) {
+    const geojson = await Cesium.GeoJsonDataSource.load(url, {
+      clampToGround: true,
+      stroke: color,
+      fill: color.withAlpha(0.2),
+      strokeWidth: 2
+    });
+    viewer.dataSources.add(geojson);
+    return geojson;
+  }
+
+  // Muat dua geojson secara paralel
+  const [geojson1, geojson2] = await Promise.all([
+    loadGeoJson('ALL_JSON/batas_GORONTALO.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/batas_KARANGANYAR.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/batas_LAMPUNG.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/batas_MAROS.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/batas_TOBA.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/batas_JAYAWIJAYA.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/batas_KETAPANG.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/batas_MAYBRAT.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/batas_BANGLI.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/batas_ENDE.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/batas_MALUKUTENGAH.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/batas_POSO.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/batas_KUTAITIMUR.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/batas_SOLOK.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/batas_NUNUKAN.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/batas_BANYUWANGI.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/batas_SUKABUMI.geojson', Cesium.Color.RED),
+    loadGeoJson('ALL_JSON/poin_informasi_lokasi.geojson', Cesium.Color.BLUE),
+  ]);
+
+  // Fly to salah satu (atau keduanya jika ingin bounding box kombinasi)
+  viewer.camera.flyTo({
+  destination: Cesium.Rectangle.fromDegrees(95, -11, 141, 6) // koordinat: barat, selatan, timur, utara
+});
+</script>
+</body>
+</html>
